@@ -33,7 +33,7 @@ Matrix add_matrix(Matrix a, Matrix b)
     int j;
     for (i = 0; i < a.rows; i++)
     {
-        for ( j = 0;j < a.cols; j++)
+        for (j = 0;j < a.cols; j++)
         {
             result.data[i][j] = a.data[i][j] + b.data[i][j];
         }
@@ -74,7 +74,7 @@ Matrix mul_matrix(Matrix a, Matrix b)
     int j;
     for(i = 0; i < a.rows; i++)
     {
-        for(j = 0;j < a.cols; j++)
+        for(j = 0; j < a.cols; j++)
         {
             int q;
             for(q = 0; q < a.cols; q++)
@@ -128,12 +128,12 @@ double det_matrix(Matrix a)
     {
         return a.data[0][0];
     }
-    if(a.rows==2)
+    if(a.rows == 2)
     {
         return a.data[0][0] * a.data[1][1] - a.data[0][1] * a.data[1][0];
     }
     double det = 0;
-    Matrix submatrix=create_matrix(a.rows - 1, a.cols - 1);
+    Matrix submatrix = create_matrix(a.rows - 1, a.cols - 1);
     int i;
     int j;
     for(i = 0; i < a.cols; i++)
@@ -189,7 +189,8 @@ Matrix inv_matrix(Matrix a)
                 int subj = 0;
                 int n;
                 for (n = 0; n < a.cols; n++) {
-                    if (n == j) continue;
+                    if (n == j) 
+                    continue;
                     submatrix.data[subi][subj] = a.data[m][n];
                     subj++;
                 }
@@ -208,7 +209,8 @@ Matrix inv_matrix(Matrix a)
 
 int rank_matrix(Matrix a)
 {
-    if (a.rows != a.cols) { 
+    if (a.rows != a.cols) 
+    { 
         printf("Error: This simple rank calculation only supports square matrices.\n");  
         return 0;    
     }       
@@ -219,15 +221,18 @@ int rank_matrix(Matrix a)
     }   
     return 0;
 }
+
 double trace_matrix(Matrix a)
 {   
-    if (a.rows != a.cols) {    
+    if (a.rows != a.cols) 
+    {    
         printf("Error: Matrix must be square.\n");
         return 0;    
     }   
     double trace = 0;   
     int i;   
-    for (i = 0; i < a.rows; i++) {  
+    for (i = 0; i < a.rows; i++) 
+    {  
         trace += a.data[i][i];      
     }      
     return trace;
