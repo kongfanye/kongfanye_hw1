@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+
 Matrix create_matrix(int row, int col)
 {
     Matrix m;
@@ -13,7 +14,7 @@ Matrix create_matrix(int row, int col)
 void free_matrix(Matrix m)
 {
     int i;
-    for(i=0; i< m.rows; i++)
+    for (i = 0; i < m.rows; i++)
     {
         free(m.data[i]);
     }
@@ -22,59 +23,63 @@ void free_matrix(Matrix m)
 
 Matrix add_matrix(Matrix a, Matrix b)
 {
-    if((a.rows != b.rows)||(a.cols != b.cols)){
+    if ((a.rows != b.rows) || (a.cols != b.cols))
+    {
         printf("Error: Matrix a and b must have the same rows and cols.\n");
-       return create_matrix(0, 0);
+        return create_matrix(0, 0);
     }
     Matrix result = create_matrix(a.rows, a.cols);
     int i;
     int j;
-    for( i=0;i<a.rows;i++){
-        for( j=0;j<a.cols;j++){
-            result.data[i][j]=a.data[i][j] + b.data[i][j];
+    for (i = 0; i < a.rows; i++)
+    {
+        for ( j = 0;j < a.cols; j++)
+        {
+            result.data[i][j] = a.data[i][j] + b.data[i][j];
         }
 
     }
-    return create_matrix(0, 0);
-    
-    
+    return create_matrix(0, 0);  
 }
 
 Matrix sub_matrix(Matrix a, Matrix b)
 {
      
-    if((a.rows != b.rows)||(a.cols != b.cols)){
+    if ((a.rows != b.rows) || (a.cols != b.cols))
+    {
         printf("Error: Matrix a and b must have the same rows and cols.");
-       return create_matrix(0, 0);
+        return create_matrix(0, 0);
     }
     Matrix result = create_matrix(a.rows, a.cols);
     int i;
     int j;
-    for( i=0;i<a.rows;i++){
-        for( j=0;j<a.cols;j++){
-            result.data[i][j]=a.data[i][j] - b.data[i][j];
-        }
-       
+    for (i = 0; i < a.rows; i++)
+    {
+        for (j = 0; j < a.cols; j++){
+            result.data[i][j] = a.data[i][j] - b.data[i][j];
+        } 
     }
     return result;
 }
 
 Matrix mul_matrix(Matrix a, Matrix b)
 {
-     if((a.cols != b.rows)){
+     if ((a.cols != b.rows))
+     {
         printf("Error: The number of cols of matrix a must be equal to the number of rows of matrix b.\n");
-       return create_matrix(0, 0);
+        return create_matrix(0, 0);
     }
     Matrix result = create_matrix(a.rows, b.cols);
     int i;
     int j;
-
-    for( i=0;i<a.rows;i++){
-        for( j=0;j<a.cols;j++){
+    for(i = 0; i < a.rows; i++)
+    {
+        for(j = 0;j < a.cols; j++)
+        {
             int q;
-            for( q=0;q<a.cols; q++){
-
-        result.data[i][j]+=a.data[i][j]*b.data[j][q];
+            for(q = 0; q < a.cols; q++)
+            {
+                result.data[i][j] += a.data[i][j] * b.data[j][q];
             }
         }
     } 
@@ -83,14 +88,17 @@ Matrix mul_matrix(Matrix a, Matrix b)
 
 Matrix scale_matrix(Matrix a, double k)
 {
-    Matrix result=create_matrix(a.rows,a.cols);
+    Matrix result = create_matrix(a.rows, a.cols);
     int i;
     int j;
-    for( i=0;i<a.rows;i++){
-        for( j=0;j<a.cols;j++){
-            result.data[i][j]=a.data[i][j]*k;
+    for(i = 0; i < a.rows; i++)
+    {
+        for(j = 0; j < a.cols; j++)
+        {
+            result.data[i][j] = a.data[i][j] * k;
         }
-    }print_matrix(a);
+    }
+    print_matrix(a);
     return create_matrix(0, 0);
 }
 
@@ -99,9 +107,11 @@ Matrix transpose_matrix(Matrix a)
     Matrix result = create_matrix(a.cols, a.rows);
     int i;
     int j;
-    for( i=0;i<a.rows;i++){
-        for( j=0;j<a.cols;j++){
-            result.data[j][i]=a.data[i][j];
+    for(i = 0;i < a.rows; i++)
+    {
+        for(j = 0; j < a.cols; j++)
+        { 
+            result.data[j][i] = a.data[i][j];
         }
     }
     return result;
@@ -109,34 +119,41 @@ Matrix transpose_matrix(Matrix a)
 
 double det_matrix(Matrix a)
 {
-    if(a.rows!=a.cols){
+    if(a.rows != a.cols)
+    {
         printf("Error: The matrix must be a square matrix.\n");
         return 0;
     }
-    if(a.rows ==1){
+    if(a.rows == 1)
+    {
         return a.data[0][0];
     }
-    if(a.rows==2){
-        return a.data[0][0]*a.data[1][1]-a.data[0][1]*a.data[1][0];
+    if(a.rows==2)
+    {
+        return a.data[0][0] * a.data[1][1] - a.data[0][1] * a.data[1][0];
     }
-    double det=0;
-    Matrix submatrix=create_matrix(a.rows-1,a.cols-1);
+    double det = 0;
+    Matrix submatrix=create_matrix(a.rows - 1, a.cols - 1);
     int i;
     int j;
-    for(i=0;i<a.cols;i++){
-        int subi=0;
-    for(j=1;j<a.rows;j++){
-        int subj=0;
+    for(i = 0; i < a.cols; i++)
+    {
+        int subi = 0;
+    for(j = 1; j < a.rows; j++)
+    {
+        int subj = 0;
         int k;
-        for(k=0;k<a.cols;k++){
-            if(k==i)continue;
-            submatrix.data[subi][subj]=a.data[j][k];
+        for(k = 0; k < a.cols; k++)
+        {
+            if(k == i)
+            continue;
+            submatrix.data[subi][subj] = a.data[j][k];
             subj++;
         }
         subi++;
     }
-    double sign=(i%2==0)?1:-1;
-    det+=sign*a.data[0][i]*det_matrix(submatrix);
+    double sign = (i % 2 == 0) ? 1:-1;
+    det += sign * a.data[0][i] * det_matrix(submatrix);
     }
     free_matrix(submatrix);
     return det;
@@ -144,12 +161,14 @@ double det_matrix(Matrix a)
 
 Matrix inv_matrix(Matrix a)
 {
-    if (a.rows != a.cols) { 
+    if (a.rows != a.cols) 
+    { 
         printf("Error: Matrix must be square.\n");
         return create_matrix(0, 0);
     }
     double det = det_matrix(a);
-    if (det == 0) {
+    if (det == 0) 
+    {
         printf("Error: Matrix is singular and has no inverse.\n");
         return create_matrix(0, 0);
     }
@@ -157,12 +176,16 @@ Matrix inv_matrix(Matrix a)
     Matrix submatrix = create_matrix(a.rows - 1, a.cols - 1);
     int i;
     int j;
-    for (i = 0; i < a.rows; i++) {
-        for (j = 0; j < a.cols; j++) {
+    for (i = 0; i < a.rows; i++) 
+    {
+        for (j = 0; j < a.cols; j++) 
+        {
             int subi = 0;
             int m;
-            for (m = 0; m < a.rows; m++) {
-                if (m == i) continue;
+            for (m = 0; m < a.rows; m++)
+            {
+                if (m == i) 
+                continue;
                 int subj = 0;
                 int n;
                 for (n = 0; n < a.cols; n++) {
